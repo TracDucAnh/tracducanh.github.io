@@ -1,0 +1,439 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>The JEPA Paradox in Language — Anh Trac Duc Dinh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A plain-language walkthrough of our preprint on why deterministic JEPA-style latent prediction, so successful for images, video, and audio, breaks down on text.">
+
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,700,700i" rel="stylesheet">
+
+	<link rel="shortcut icon" href="../favicon.ico">
+
+	<style>
+		:root{
+			--bg:#fdfdfb;
+			--bg-alt:#f4f5f8;
+			--text:#2b2b2b;
+			--text-soft:#6b6f76;
+			--text-faint:#9a9ea6;
+			--accent:#2c98f0;
+			--card:#ffffff;
+			--border:#e9e9e4;
+			--shadow:0 10px 30px rgba(20,20,25,0.08);
+		}
+		body.dark-mode{
+			--bg:#15171c;
+			--bg-alt:#1b1e24;
+			--text:#dcdfe4;
+			--text-soft:#9aa0aa;
+			--text-faint:#6f7580;
+			--accent:#5aaef8;
+			--card:#1b1e24;
+			--border:#2a2e37;
+			--shadow:0 10px 30px rgba(0,0,0,0.35);
+		}
+
+		*{box-sizing:border-box;}
+		html{scroll-behavior:smooth;}
+		body{
+			margin:0;
+			background:var(--bg);
+			color:var(--text);
+			font-family:"Playfair Display", Georgia, serif;
+			line-height:1.8;
+			-webkit-font-smoothing:antialiased;
+			transition:background .35s ease, color .35s ease;
+		}
+
+		/* ---------- Top bar ---------- */
+		.topbar{
+			position:sticky;
+			top:0;
+			z-index:20;
+			display:flex;
+			align-items:center;
+			justify-content:space-between;
+			padding:18px 6vw;
+			background:var(--bg);
+			border-bottom:1px solid var(--border);
+			transition:background .35s ease, border-color .35s ease;
+		}
+		.back-link{
+			font-size:15px;
+			color:var(--text-soft);
+			text-decoration:none;
+			letter-spacing:.2px;
+		}
+		.back-link:hover{color:var(--accent);}
+		.theme-toggle-wrap{display:flex;align-items:center;gap:10px;}
+		.theme-toggle-label{font-size:13px;color:var(--text-soft);}
+		.theme-switch{position:relative;display:inline-block;width:46px;height:24px;flex-shrink:0;}
+		.theme-switch input{opacity:0;width:0;height:0;}
+		.theme-switch .slider{
+			position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+			background-color:#ccc;transition:.3s;border-radius:26px;
+		}
+		body.dark-mode .theme-switch .slider{background-color:#3a3f4a;}
+		.theme-switch .slider:before{
+			position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;
+			background-color:#fff;transition:.3s;border-radius:50%;
+			box-shadow:0 1px 3px rgba(0,0,0,0.3);
+		}
+		.theme-switch input:checked + .slider{background-color:var(--accent);}
+		.theme-switch input:checked + .slider:before{transform:translateX(22px);}
+
+		/* ---------- Hero ---------- */
+		.hero{
+			max-width:min(860px, 92vw);
+			margin:0 auto;
+			padding:56px 6vw 10px;
+			text-align:center;
+		}
+		.hero-eyebrow{
+			font-style:italic;
+			color:var(--text-soft);
+			font-size:15px;
+			margin-bottom:10px;
+		}
+		.hero h1{
+			font-size:clamp(28px, 4.4vw, 42px);
+			line-height:1.25;
+			margin:0 0 18px;
+			font-weight:700;
+		}
+		.hero .subtitle{
+			font-size:18px;
+			font-style:italic;
+			color:var(--text-soft);
+			max-width:min(680px, 88vw);
+			margin:0 auto 26px;
+		}
+		.byline{
+			font-size:14px;
+			color:var(--text-faint);
+			margin-bottom:34px;
+		}
+		.byline b{color:var(--text-soft);font-weight:600;}
+		.hero-cover{
+			width:100%;
+			max-width:min(700px, 90vw);
+			margin:0 auto 8px;
+			border-radius:14px;
+			overflow:hidden;
+			box-shadow:var(--shadow);
+			background:var(--bg-alt);
+		}
+		.hero-cover img{
+			width:100%;
+			display:block;
+		}
+
+		/* ---------- Article ---------- */
+		article{
+			max-width:min(760px, 90vw);
+			margin:0 auto;
+			padding:26px 6vw 90px;
+		}
+		article p{
+			font-size:18px;
+			margin:0 0 24px;
+			color:var(--text);
+		}
+		article p b, article p strong{color:var(--text);font-weight:700;}
+		article p i, article p em{color:var(--text-soft);}
+		.drop{
+			font-size:22px;
+		}
+
+		figure{
+			margin:36px 0 34px;
+		}
+		figure img{
+			width:100%;
+			border-radius:10px;
+			display:block;
+			box-shadow:var(--shadow);
+			border:1px solid var(--border);
+			background:var(--bg-alt);
+		}
+		figcaption{
+			font-size:13.5px;
+			font-style:italic;
+			color:var(--text-faint);
+			text-align:center;
+			margin-top:10px;
+		}
+
+		blockquote.eq{
+			margin:30px 0;
+			padding:16px 22px;
+			border-left:3px solid var(--accent);
+			background:var(--bg-alt);
+			border-radius:0 8px 8px 0;
+			font-size:16px;
+			font-style:italic;
+			color:var(--text-soft);
+		}
+		.math-block{
+			margin:26px 0;
+			padding:18px 24px;
+			border:1px solid var(--border);
+			border-radius:10px;
+			background:var(--bg-alt);
+		}
+		.math-block .tag{
+			display:inline-block;
+			font-size:12px;
+			font-style:normal;
+			letter-spacing:.6px;
+			text-transform:uppercase;
+			color:var(--accent);
+			font-weight:700;
+			margin-bottom:8px;
+		}
+		.math-block .eqn{
+			display:block;
+			font-size:16.5px;
+			font-style:normal;
+			text-align:center;
+			margin:12px 0;
+			color:var(--text);
+			overflow-x:auto;
+		}
+		.math-block p{
+			font-size:15.5px;
+			margin:0 0 10px;
+			color:var(--text-soft);
+			font-style:normal;
+		}
+		.math-block p:last-child{margin-bottom:0;}
+		.math-block .consequence{
+			font-size:15.5px;
+			color:var(--text);
+			font-style:italic;
+			border-top:1px solid var(--border);
+			margin-top:14px;
+			padding-top:12px;
+		}
+
+		/* ---------- Scroll reveal ---------- */
+		.reveal{
+			opacity:0;
+			transform:translateY(16px);
+			transition:opacity .7s ease, transform .7s ease;
+		}
+		.reveal.is-visible{
+			opacity:1;
+			transform:translateY(0);
+		}
+		@media (prefers-reduced-motion: reduce){
+			.reveal{opacity:1;transform:none;transition:none;}
+		}
+
+		hr.sep{
+			border:none;
+			border-top:1px solid var(--border);
+			margin:44px 0;
+		}
+
+		.footer-note{
+			text-align:center;
+			font-size:14.5px;
+			color:var(--text-faint);
+			padding:0 6vw 70px;
+		}
+		.footer-note a{color:var(--accent);text-decoration:none;}
+		.footer-note a:hover{text-decoration:underline;}
+
+		@media (max-width:480px){
+			article p{font-size:16.5px;}
+			.hero h1{font-size:26px;}
+		}
+
+		/* ---------- Link buttons ---------- */
+		.link-row{
+			max-width:min(760px, 90vw);
+			margin:0 auto;
+			padding:6px 6vw 70px;
+			display:flex;
+			flex-wrap:wrap;
+			justify-content:center;
+			gap:14px;
+		}
+		.link-btn{
+			display:inline-flex;
+			align-items:center;
+			gap:8px;
+			padding:12px 22px;
+			font-family:"Playfair Display", Georgia, serif;
+			font-size:15px;
+			font-weight:700;
+			text-decoration:none;
+			border-radius:8px;
+			border:1.5px solid var(--accent);
+			color:var(--accent);
+			transition:.25s;
+		}
+		.link-btn:hover{background:var(--accent);color:#fff;}
+		.link-btn.solid{background:var(--accent);color:#fff;}
+		.link-btn.solid:hover{opacity:.85;background:var(--accent);color:#fff;}
+	</style>
+</head>
+<body>
+
+	<div class="topbar">
+		<a class="back-link" href="../index.html#blog">&larr; Back to home</a>
+		<div class="theme-toggle-wrap">
+			<span class="theme-toggle-label" id="theme-toggle-label">Light mode</span>
+			<label class="theme-switch">
+				<input type="checkbox" id="theme-toggle">
+				<span class="slider"></span>
+			</label>
+		</div>
+	</div>
+
+	<div class="hero">
+		<div class="hero-eyebrow">Preprint &middot; Under Review &middot; arXiv:2607.23531</div>
+		<h1>The JEPA Paradox in Language</h1>
+		<p class="subtitle">JEPA conquered images, video, and audio by predicting representations instead of raw signals. Text never got a version of its own — our new preprint tries to explain why, one carefully instrumented failure at a time.</p>
+		<div class="byline"><b>Anh Trac Duc Dinh</b> &middot; July 21, 2026</div>
+		<div class="hero-cover">
+			<img src="../images/Preprint_JEPA_Paradox/T-JEPA_fails.png" alt="Illustration comparing a masked image patch, which has one plausible completion, with a masked word in a sentence, which admits several valid but different completions such as sat, lay, was, slept, rested.">
+		</div>
+	</div>
+
+	<article>
+
+		<p class="reveal drop">Joint-Embedding Predictive Architectures — JEPA for short — have quietly become one of self-supervised learning's best tricks. Instead of asking a model to reconstruct the exact pixels behind a mask, JEPA only asks it to predict what the masked region <i>represents</i>, in an abstract latent space. That one change has powered strong results in images (I-JEPA), video, and audio. What it has conspicuously not powered is a standard, general-purpose recipe for text encoders. Two very recent 2026 papers, LLM-JEPA and DLLM-JEPA, do attach a JEPA-style loss to language models — but in both, the JEPA term never trains alone; it rides on top of an ordinary generative loss (autoregressive or diffusion), and the ablations in both papers show that term collapsing to nothing the moment it is left by itself. So the actual question — can deterministic latent prediction work on text on its own — was still unanswered. We decided to just build the missing baseline and watch, in detail, what happens when it fails.</p>
+
+		<p class="reveal">A JEPA model is simple in outline. A context encoder sees a masked view of the input; a slowly-updated (EMA) target encoder embeds the full, unmasked input; a predictor is trained to match the target's latent representation from the context alone, using ordinary squared error. No pixels or tokens are ever reconstructed — only representations. This works beautifully for images because nearby patches are strongly correlated: a masked patch of fur is well constrained by the fur around it, so there is usually one geometrically sensible answer to predict.</p>
+
+		<figure class="reveal">
+			<img src="../images/Preprint_JEPA_Paradox/T-JEPA_fails.png" alt="Masked image patch versus masked word, illustrating conditional concentration versus lexical ambiguity">
+			<figcaption>The image-text divide in one picture. A masked image patch (left) has a low-variance conditional target: the surrounding fur gives it away. A masked word (right) can be completed by several tokens — "sat," "lay," "was," "slept," "rested" — each with a distinct meaning and a distinct latent representation. A squared-error predictor still has to output exactly one vector.</figcaption>
+		</figure>
+
+		<p class="reveal">We call this requirement <b>conditional concentration</b>: given a context z<sub>C</sub> and a target position p<sub>j</sub>, the target's representation z<sub>T</sub><sup>(j)</sup> should sit near one meaningful point rather than being spread across several. We formalize this into three necessary conditions — predictability, non-collapse, and low conditional variance — and prove each one with a short argument. Here is the core math, briefly.</p>
+
+		<div class="math-block reveal">
+			<span class="tag">Conditional concentration</span>
+			<p>The target is conditionally concentrated when its conditional entropy given the context is small relative to its unconditional uncertainty. Since deterministic encoders cannot manufacture information absent from the raw inputs, the Data Processing Inequality gives a ceiling on what any JEPA loss can exploit:</p>
+			<span class="eqn">I(z<sub>C</sub>; z<sub>T</sub><sup>(j)</sup>) &nbsp;≤&nbsp; I(x<sub>C</sub>; x<sup>(j)</sup>)</span>
+			<p>The image–text gap can't be closed by a bigger encoder — it depends on how strongly the visible context actually constrains the missing target.</p>
+		</div>
+
+		<div class="math-block reveal">
+			<span class="tag">Argument I &middot; Predictability</span>
+			<p><b>Images.</b> Under a locally Lipschitz target encoder, nearby patches pin each other down:</p>
+			<span class="eqn">E[ ‖f<sub>θ̄</sub>(x)<sup>(j)</sup> − f<sub>θ̄</sub>(x)<sup>(i)</sup>‖² ] &nbsp;≤&nbsp; L² d(i,j)²</span>
+			<p><i>Proof sketch:</i> bounded local pixel variation + Lipschitz continuity of the encoder on the data manifold, squared and averaged.</p>
+			<p><b>Text.</b> If two plausible completions u, v of a masked span both have probability above ε and their representations differ by at least Δ, the conditional target is a two-(or more)-point distribution, not a point mass:</p>
+			<span class="eqn">‖f<sub>θ̄</sub>(x<sub>j←u</sub>)<sup>(j)</sup> − f<sub>θ̄</sub>(x<sub>j←v</sub>)<sup>(j)</sup>‖ &nbsp;≥&nbsp; Δ &nbsp;⇒&nbsp; Var(z<sub>T</sub><sup>(j)</sup> | z<sub>C</sub>, p<sub>j</sub>) &gt; 0</span>
+			<p><i>Proof sketch:</i> a random variable placing non-negligible mass on two separated points cannot be concentrated at either one.</p>
+			<p class="consequence"><b>Consequence I.</b> Predictability fails first, before anything else — exactly what we see empirically: T-JEPA's mutual-information proxy plateaus almost immediately, while its representation rank is still healthy; collapse only follows, thousands of steps later.</p>
+		</div>
+
+		<div class="math-block reveal">
+			<span class="tag">Argument II &middot; Non-collapse</span>
+			<p>A representation is non-collapsed when its covariance Σ<sub>z</sub> has no vanishing direction:</p>
+			<span class="eqn">Var(u<sup>⊤</sup>z) ≥ γ &nbsp;for every unit u&nbsp; ⇒ &nbsp;λ<sub>min</sub>(Σ<sub>z</sub>) ≥ γ</span>
+			<p><b>Images.</b> If the context encoder collapses to a constant c, the predictor is left guessing position alone, and pays for it — real visual targets vary with content beyond position (σ²<sub>vis</sub> &gt; 0):</p>
+			<span class="eqn">inf<sub>g<sub>φ</sub></sub> E[ ‖g<sub>φ</sub>(c, p<sub>j</sub>) − z<sub>T</sub><sup>(j)</sup>‖² ] &nbsp;≥&nbsp; σ²<sub>vis</sub></span>
+			<p><b>Text.</b> If the encoder instead factors through K &lt; d coarse equivalence classes, its covariance is provably rank-deficient — rank(Σ<sub>z</sub>) ≤ K − 1 — yet a predictor built on those same K classes can still reach zero training loss. Collapsing costs nothing under the loss itself.</p>
+			<p class="consequence"><b>Consequence II.</b> For images, collapse is expensive; for text, it's a free, loss-reducing escape route — which is exactly why T-JEPA's effective rank eventually implodes while I-JEPA's keeps growing.</p>
+		</div>
+
+		<div class="math-block reveal">
+			<span class="tag">Argument III &middot; Centroid degeneracy</span>
+			<p>The JEPA loss always splits into a reducible and an irreducible part:</p>
+			<span class="eqn">E[‖g<sub>φ</sub> − z*‖²] &nbsp;=&nbsp; E[‖g<sub>φ</sub> − z̄‖²]<sub>reducible</sub> &nbsp;+&nbsp; E[Var(z* | z<sub>C</sub>, p<sub>j</sub>)]<sub>irreducible</sub></span>
+			<p>and the squared-error-optimal predictor is exactly the conditional mean — a probability-weighted centroid over every plausible completion:</p>
+			<span class="eqn">g<sup>⋆</sup><sub>φ</sub>(z<sub>C</sub>, p<sub>j</sub>) &nbsp;=&nbsp; Σ<sub>v</sub> p(v | x<sub>C</sub>) · h<sub>j</sub>(v; x<sub>C</sub>)</span>
+			<p>When m ≥ 2 completions each carry probability ≥ α and are pairwise separated by ≥ Δ, that irreducible term is bounded away from zero:</p>
+			<span class="eqn">Var(z* | z<sub>C</sub>, p<sub>j</sub>) &nbsp;≥&nbsp; (α² m(m−1) / 2) · Δ²</span>
+			<p><i>Proof sketch:</i> Var(Z) = ½E[‖Z − Z′‖²] for an i.i.d. copy Z′; restrict the sum to separated, non-negligible-probability pairs.</p>
+			<p class="consequence"><b>Consequence III.</b> Whenever plausible completions are both likely and separated, the "best" deterministic vector is a centroid that matches no real completion — <i>predictable</i> and <i>coherent</i> pull in opposite directions for text in a way they don't for images.</p>
+		</div>
+
+		<p class="reveal">To test this, we built T-JEPA, a direct text analogue of I-JEPA trained under a matched recipe — same optimizer schedule, same EMA target encoder, same span-masking budget — and tracked five complementary diagnostics on held-out data: an InfoNCE mutual-information proxy, the effective rank of the representation covariance, pairwise cosine similarity, the train–validation loss gap, and a directly estimated conditional target variance (sampled from sixteen plausible completions per context). All five converge on the same five-stage story, reproduced across five independent seeds: the mutual-information proxy saturates almost immediately, conditional variance stays stubbornly elevated, training and validation loss diverge, effective rank then collapses, and downstream transfer craters. I-JEPA, trained side by side under identical settings, shows none of it — its mutual information keeps climbing and its representation rank stays healthy throughout.</p>
+
+		<figure class="reveal">
+			<img src="../images/Preprint_JEPA_Paradox/grid_2x4.png" alt="3D activation surfaces comparing VICReg, Barlow Twins, BYOL, BERT, and T-JEPA on the same held-out sentence">
+			<figcaption>Last hidden-state activations on the same sentence, across self-supervised text encoders. BERT and the non-JEPA baselines keep visible structure across tokens and dimensions; T-JEPA (bottom right) goes nearly flat — the representation geometry itself is being compressed away.</figcaption>
+		</figure>
+
+		<figure class="reveal">
+			<img src="../images/Preprint_JEPA_Paradox/presentation_class.png" alt="t-SNE plots of sentence, token, and SNLI representations for BERT versus T-JEPA, showing T-JEPA's representations collapsing into a handful of tight clusters or a thin ring">
+			<figcaption>t-SNE views of the same representations. BERT spreads sentences, tokens, and SNLI classes broadly and continuously; T-JEPA's collapse into a few tight clusters at the sentence level, a narrow band at the token level, and a thin, class-agnostic ring after fine-tuning on SNLI.</figcaption>
+		</figure>
+
+		<p class="reveal">The downstream numbers make the point plainly. Frozen and evaluated on classification and retrieval, BERT — trained with ordinary masked language modeling — comfortably outperforms every self-supervised baseline we tried. T-JEPA lands at chance-level classification and zero retrieval, below even non-contrastive baselines like Barlow Twins and VICReg trained under the same corruption budget. None of this means predictive latent learning is impossible for language; it means the missing inductive bias is preserving multiple plausible completions rather than compressing them into a single point.</p>
+
+		<hr class="sep reveal">
+
+		<p class="reveal">Khang and I just finished this preprint together: <i>"The JEPA Paradox in Language: The Geometry of Linguistic Alternatives."</i> There is a way of learning in AI I have always found appealing: mask part of the input, and ask the model to predict the missing piece — not by guessing raw pixels or raw words, but by predicting an internal representation of what is missing. That recipe had already worked beautifully for images, video, and audio, so we assumed carrying it over to language would go just as smoothly.</p>
+
+		<p class="reveal">It did not. After many rounds of changing the masking scheme, the architecture, and the training setup, the same pattern kept showing up: the loss kept going down, the model kept "learning" in that narrow sense, but what it represented internally quietly collapsed into something close to uniform and useless. At first we assumed a bug, or the wrong hyperparameters. After a long stretch with no real progress, we ended up asking a different, slightly backwards question: why does a recipe that works so well for images run into trouble on language specifically?</p>
+
+		<p class="reveal">The picture that eventually made sense of it is simple. Mask a small patch inside a photo of a cat, and the fur around it already tells you most of what belongs there. But mask a word in "The cat <i>___</i> on the mat," and the blank could be "sat," "lay," "slept," "rested," and more — not one answer, but several, each carrying different meaning. The model is not just missing information; it is facing several equally valid possibilities at once. That uncertainty is entirely natural in language. An ordinary language model can hold onto it by spreading probability across candidate words. Ours could not — it was forced to compress everything into one single answer.</p>
+
+		<p class="reveal">That tension is what we spent this paper trying to understand. Rather than propose yet another new model, we followed the failure itself: tracking how it unfolds step by step, comparing images and text side by side under matched conditions, and repeating the experiment across independent runs to make sure it wasn't a fluke. This paper is the result of a fairly long stretch of trial and error, and one of the rare times we chose not to look away from a negative result, but to sit with it long enough to understand why it happened.</p>
+
+		<p class="reveal">Thank you, Khang, for staying with this question all the way to the end.</p>
+
+	</article>
+
+    <div class="link-row">
+		<a class="link-btn solid" href="https://arxiv.org/abs/2607.23531" target="_blank" rel="noopener">Read the Preprint</a>
+	</div>
+
+	<div class="footer-note">
+		<a href="../index.html#preprints">See the full list of preprints &rarr;</a>
+	</div>
+
+	<script>
+	(function(){
+		var body = document.body;
+		var toggle = document.getElementById('theme-toggle');
+		var label = document.getElementById('theme-toggle-label');
+
+		function applyTheme(isDark){
+			body.classList.toggle('dark-mode', isDark);
+			if (toggle) toggle.checked = isDark;
+			if (label) label.textContent = isDark ? 'Dark mode' : 'Light mode';
+		}
+
+		var saved = localStorage.getItem('theme');
+		var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		applyTheme(saved ? saved === 'dark' : prefersDark);
+
+		if (toggle) {
+			toggle.addEventListener('change', function(){
+				var isDark = toggle.checked;
+				applyTheme(isDark);
+				localStorage.setItem('theme', isDark ? 'dark' : 'light');
+			});
+		}
+
+		// Scroll reveal
+		var revealEls = document.querySelectorAll('.reveal');
+		if ('IntersectionObserver' in window) {
+			var io = new IntersectionObserver(function(entries){
+				entries.forEach(function(entry){
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						io.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+			revealEls.forEach(function(el){ io.observe(el); });
+		} else {
+			revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+		}
+	})();
+	</script>
+
+</body>
+</html>
