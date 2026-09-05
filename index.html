@@ -1,0 +1,587 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Anh Trac Duc Dinh's Home Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+
+  <!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+	<!-- Flaticons  -->
+	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	<style>
+		/* ---------- Blog: responsive auto-fit grid ---------- */
+		.blog-grid{
+			display:grid;
+			grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+			gap:20px;
+			margin-top:15px;
+		}
+		.blog-card{
+			scroll-snap-align:start;
+			border:1px solid #eee;
+			border-radius:8px;
+			overflow:hidden;
+			background:#fff;
+			box-shadow:0 2px 6px rgba(0,0,0,0.04);
+			transition:.3s;
+			display:flex;
+			flex-direction:column;
+		}
+		.blog-card:hover{box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+		.blog-card-img{
+			width:100%;
+			height:160px;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			background:#f2f3f7;
+			color:rgba(0,0,0,0.2);
+		}
+		.blog-card-img svg{width:48px;height:48px;}
+		.blog-card-body{padding:16px;}
+		.blog-card-title{
+			display:block;
+			font-weight:700;
+			font-size:16px;
+			margin-bottom:8px;
+			color:#000;
+		}
+		.blog-card-desc{
+			font-size:13.5px;
+			line-height:1.6;
+			color:#888;
+			margin-bottom:14px !important;
+		}
+		.blog-card-btn{
+			display:inline-block;
+			padding:6px 14px;
+			font-size:13px;
+			font-weight:600;
+			border:1px solid #2c98f0;
+			border-radius:4px;
+			color:#2c98f0 !important;
+			text-decoration:none !important;
+			transition:.3s;
+		}
+		.blog-card-btn:hover{background:#2c98f0;color:#fff !important;}
+
+		/* ---------- Unify typography across the page ---------- */
+		body, h1, h2, h3, h4, h5, h6,
+		p, span, li, a, label, small, div{
+			font-family: "Playfair Display", Georgia, serif !important;
+		}
+
+		.about-desc h2.section-title{
+			font-size:16px;
+			text-transform:uppercase;
+			letter-spacing:1px;
+			border-bottom:1px solid #eee;
+			padding-bottom:8px;
+			margin:30px 0 15px 0;
+		}
+		.about-desc h2.section-title:first-of-type{margin-top:0;}
+		.about-desc ul.plain-list, .about-desc ol.pub-list{
+			padding-left:20px;
+			margin-bottom:0;
+		}
+		.about-desc ul.plain-list li, .about-desc ol.pub-list li{
+			margin-bottom:10px;
+			line-height:1.6;
+		}
+		.about-desc .news-item{margin-bottom:6px;}
+		.about-desc .exp-block{margin-bottom:14px;}
+		.about-desc .exp-block .exp-role{font-weight:600;}
+		.about-desc .exp-block .exp-meta{font-style:italic;color:#888;display:block;margin-bottom:4px;}
+		.about-desc .award-block{margin-bottom:14px;}
+		.about-desc .award-block .award-title{font-weight:600;}
+		.about-desc .award-block .award-meta{font-style:italic;color:#888;display:block;margin-bottom:2px;}
+		.about-desc .preprint-list{padding-left:20px;}
+		.about-desc .preprint-list li{margin-bottom:14px;line-height:1.6;}
+		.about-desc .preprint-list .preprint-date{font-style:italic;color:#888;display:block;font-size:13px;margin-top:2px;}
+
+		/* ---------- Dark mode toggle switch (in aside footer) ---------- */
+		.theme-toggle-wrap{
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			gap:10px;
+			margin-bottom:16px;
+		}
+		.theme-toggle-label{font-size:13px;color:rgba(0,0,0,0.5);}
+		#colorlib-aside .colorlib-footer ul li a{color:rgba(0,0,0,0.3) !important;}
+		#colorlib-aside .colorlib-footer ul li a:hover{color:#2c98f0 !important;}
+		.footer-icon{
+			display:inline-block;
+			width:16px;
+			height:16px;
+			vertical-align:-3px;
+			color:rgba(0,0,0,0.3);
+			transition:.3s;
+		}
+		#colorlib-aside .colorlib-footer ul li a:hover .footer-icon{color:#2c98f0;}
+		.theme-switch{
+			position:relative;
+			display:inline-block;
+			width:50px;
+			height:26px;
+			flex-shrink:0;
+		}
+		.theme-switch input{opacity:0;width:0;height:0;}
+		.theme-switch .slider{
+			position:absolute;
+			cursor:pointer;
+			top:0;left:0;right:0;bottom:0;
+			background-color:#ccc;
+			transition:.3s;
+			border-radius:26px;
+		}
+		.theme-switch .slider:before{
+			position:absolute;
+			content:"";
+			height:20px;
+			width:20px;
+			left:3px;
+			bottom:3px;
+			background-color:#fff;
+			transition:.3s;
+			border-radius:50%;
+			box-shadow:0 1px 3px rgba(0,0,0,0.3);
+		}
+		.theme-switch input:checked + .slider{background-color:#2c98f0;}
+		.theme-switch input:checked + .slider:before{transform:translateX(24px);}
+
+		/* ---------- Dark mode overrides ---------- */
+		body.dark-mode{background:#15171c;}
+		body.dark-mode #colorlib-aside{
+			background:#1b1e24 !important;
+			border-color:#2a2e37 !important;
+		}
+		body.dark-mode #colorlib-logo a{color:#f0f0f0 !important;}
+		body.dark-mode .position{color:#9aa0aa !important;}
+		body.dark-mode #colorlib-main-menu ul li a{color:#c7ccd4 !important;}
+		body.dark-mode #colorlib-main-menu ul li.active a,
+		body.dark-mode #colorlib-main-menu ul li a:hover{color:#2c98f0 !important;}
+		body.dark-mode .colorlib-footer,
+		body.dark-mode .colorlib-footer p,
+		body.dark-mode .colorlib-footer small{color:#8a8f99 !important;}
+		body.dark-mode #colorlib-main{background:#15171c !important;}
+		body.dark-mode .colorlib-about,
+		body.dark-mode .colorlib-services{background:#15171c !important;}
+		body.dark-mode .about-desc{color:#c7ccd4 !important;}
+		body.dark-mode .about-desc p,
+		body.dark-mode .about-desc li{color:#c7ccd4 !important;}
+		body.dark-mode .about-desc b,
+		body.dark-mode .about-desc strong{color:#f0f0f0 !important;}
+		body.dark-mode .heading-meta{color:#f0f0f0 !important;}
+		body.dark-mode .about-desc h2.section-title{
+			color:#f0f0f0 !important;
+			border-bottom-color:#2a2e37 !important;
+		}
+		body.dark-mode .about-desc .exp-meta,
+		body.dark-mode .about-desc .award-meta,
+		body.dark-mode .about-desc .preprint-date{color:#9aa0aa !important;}
+		body.dark-mode .about-desc a{color:#5aaef8 !important;}
+		body.dark-mode .theme-toggle-label{color:#9aa0aa !important;}
+		body.dark-mode .theme-switch .slider{background-color:#3a3f4a;}
+		body.dark-mode .footer-icon{color:rgba(255,255,255,0.4);}
+		body.dark-mode .blog-card{
+			background:#1b1e24;
+			border-color:#2a2e37;
+		}
+		body.dark-mode .blog-card-img{
+			background:#20242c;
+			color:rgba(255,255,255,0.15);
+		}
+		body.dark-mode .blog-card-title{color:#f0f0f0;}
+		body.dark-mode .blog-card-desc{color:#9aa0aa;}
+		body.dark-mode #colorlib-aside .colorlib-footer ul li a:hover .footer-icon{color:#5aaef8;}
+		body.dark-mode #colorlib-aside .colorlib-footer ul li a{color:rgba(255,255,255,0.5) !important;}
+		body.dark-mode #colorlib-aside .colorlib-footer ul li a:hover{color:#5aaef8 !important;}
+	</style>
+
+	</head>
+	<body>
+	<div id="colorlib-page">
+		<div class="container-wrap">
+		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
+		<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
+			<div class="text-center">
+				<div class="author-img" style="background-image: url(images/about.jpg);"></div>
+				<h1 id="colorlib-logo"><a href="index.html">Anh Trac Duc Dinh</a></h1>
+				<span class="position">Final Year Student, HCMUT</span>
+			</div>
+			<nav id="colorlib-main-menu" role="navigation" class="navbar">
+				<div id="navbar" class="collapse">
+					<ul>
+						<li class="active"><a href="#" data-nav-section="about">About</a></li>
+						<li><a href="#" data-nav-section="publications">Publications</a></li>
+						<li><a href="#" data-nav-section="preprints">Preprints</a></li>
+						<li><a href="#" data-nav-section="services">Experience</a></li>
+						<li><a href="#" data-nav-section="awards">Awards</a></li>
+						<li><a href="#" data-nav-section="blog">Blog</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="colorlib-footer">
+				<div class="theme-toggle-wrap">
+					<label class="theme-switch">
+						<input type="checkbox" id="theme-toggle">
+						<span class="slider"></span>
+					</label>
+					<span class="theme-toggle-label" id="theme-toggle-label">Light mode</span>
+				</div>
+				<p><small>&copy; <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+				<ul>
+					<li><a href="https://www.instagram.com/dinh_trac_duc_anh/" target="_blank"><i class="icon-instagram"></i></a></li>
+					<li><a href="https://www.linkedin.com/in/dinh-trac-duc-anh/" target="_blank"><i class="icon-linkedin2"></i></a></li>
+					<li><a href="https://ura.hcmut.edu.vn/people/anh.dinhtracduc" target="_blank" title="URA Homepage"><svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M4.5 7.5c1.8 1.2 4.7 2 7.5 2s5.7-.8 7.5-2"/><path d="M4.5 16.5c1.8-1.2 4.7-2 7.5-2s5.7.8 7.5 2"/></svg></a></li>
+					<li><a href="https://scholar.google.com/citations?user=zv0hHZAAAAAJ&amp;hl=vi&amp;oi=sra" target="_blank" title="Google Scholar"><svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 1 8l4 1.82V15l7 3 7-3V9.82L21 9v6h1V8z"/><path d="M5.5 10.68v3.84c0 1.5 2.9 3.48 6.5 3.48s6.5-1.98 6.5-3.48v-3.84L12 13.5z"/></svg></a></li>
+				</ul>
+			</div>
+
+		</aside>
+
+		<div id="colorlib-main">
+
+			<section class="colorlib-about" data-section="about">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;"> About me</span>
+										<p>Hi! I am <b>Anh Trac Duc Dinh</b>, a final year student in Computer Science at the Faculty of Computer Science and Engineering, Ho Chi Minh City University of Technology (HCMUT). I currently work as a <b>Research Assistant at the URA Research Group</b> and as a <b>Research Assistant at the Center for AI Research (CAIR), VinUniversity</b>, under the supervision of <a href="https://www.cse.hcmut.edu.vn/qttho/doku.php?id=start" target="_blank">Prof. Quan Thanh Tho</a>.</p>
+
+										<p>My research interests lie at the intersection of <b>Computational Linguistics</b> and <b>Deep Learning</b>, with a focus on <i>Multilingual Natural Language Processing</i> and the <i>application of Optimal Transport theory</i> to cross-lingual and multilingual model alignment.</p>
+
+										<p>I am also fortunate to be mentored by <a href="https://nhatkhangcs.github.io/" target="_blank">Khang Hoang Nhat Vo</a>, a PhD student at Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), whose guidance has focused on <b>Representation Learning</b> and <b>Natural Language Processing</b>.</p>
+
+										<h2 class="section-title">Education</h2>
+										<p>Final Year Bachelor's Student in Computer Science<br>
+										Faculty of Computer Science and Engineering, Ho Chi Minh City University of Technology (HCMUT)<br>
+										2023 – Present</p>
+
+										<h2 class="section-title">Research Interests</h2>
+										<ul class="plain-list">
+											<li>Computational Linguistics</li>
+											<li>Multilingual Natural Language Processing</li>
+											<li>Application of Optimal Transport Theory in Deep Learning</li>
+										</ul>
+
+										<h2 class="section-title">Latest News</h2>
+										<ul class="plain-list">
+											<li class="news-item">Sep 2026: Awarded the <b>Odon Vallet Scholarship</b></li>
+											<li class="news-item">Aug 2026: 1 paper accepted to <b>EMNLP 2026</b></li>
+											<li class="news-item">Aug 2026: Completed the DSAI Talent AI Programme internship at Viettel Group</li>
+											<li class="news-item">Jun 2026: Received the <b>Comprehensive Good Student</b> Award, Faculty of Computer Science and Engineering, HCMUT (Academic Year 2024–2025)</li>
+											<li class="news-item">Apr 2026: 1 paper accepted to <b>ACL 2026</b></li>
+											<li class="news-item">Apr 2026: Started the DSAI Talent AI Programme internship at Viettel Group</li>
+											<li class="news-item">Mar 2026: Honored as an <b>Outstanding Student</b> of the Faculty of Computer Science and Engineering at HCMUT Job Fair 2026</li>
+											<li class="news-item">Oct 2025: 1 paper accepted to the <b>VLSP 2025</b> Workshop</li>
+											<li class="news-item">Aug 2025: 1 paper accepted to <b>EAAI 2026</b></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+			</section>
+
+			<section class="colorlib-services" data-section="publications">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Publications</span>
+										<ol class="pub-list" style="list-style-type: decimal; margin-top:15px;">
+											<li><u>Anh Trac Duc Dinh</u>, Anh Duc Le, &amp; Tho T. Quan. (2026). <em>Transporting Concepts Across Languages: Optimal Transport Toward English-Level Performance in Multilingual LLMs</em>. In Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing (EMNLP) (A*). (To be updated)</li>
+											<li><u>Anh Trac Duc Dinh</u>, Khang Hoang Nhat Vo, Tai Tien Ta, Vinh Cong Doan, and Tho Quan. 2026. <em>When Morphology Hides in Plain Sight: Breaking the Isolation in Vietnamese and Beyond</em>. In Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (A*), pages 10377–10392, San Diego, California, United States. Association for Computational Linguistics. <a href="https://aclanthology.org/2026.acl-long.472/" target="_blank">https://aclanthology.org/2026.acl-long.472/</a></li>
+											<li>Nguyen, L., Nguyen, D., Bui, Q., Phan, D., Le, D., Nguyen, K., Vo, Q., Vo, K., Duong, N., <u>Dinh, A.</u>, Trinh, T., Phan, C., Nguyen, A., Nguyen, T., Le, D., Dang, V., &amp; Quan, T. (2026). <em>Catching the First Light of Tomorrow: A Hackathon-Based Framework for Introducing High School Students to AI Agents</em>. Proceedings of the AAAI Conference on Artificial Intelligence (A*), 40(47), 40779–40787. <a href="https://doi.org/10.1609/aaai.v40i47.41527" target="_blank">https://doi.org/10.1609/aaai.v40i47.41527</a></li>
+											<li>Long S. T. Nguyen, Hung C. Luu, Quynh T. N. Vo, Hy N. G. La, Hoai M. Tran, <u>Anh T. D. Dinh</u>, Tuan H. Nguyen, Tri N. Ho, and Tho T. Quan. 2025. <em>Can Small Language Models Handle Vietnamese Legal Reasoning? Insights from Multi-Task Evaluation</em>. In Proceedings of the 11th International Workshop on Vietnamese Language and Speech Processing (B), pages 165–178, Hanoi, Vietnam. Association for Computational Linguistics. <a href="https://aclanthology.org/2025.vlsp-1.23/" target="_blank">https://aclanthology.org/2025.vlsp-1.23/</a></li>
+										</ol>
+									</div>
+								</div>
+							</div>
+			</section>
+
+			<section class="colorlib-services" data-section="preprints">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Latest Preprints</span>
+										<ul class="plain-list" style="margin-top:15px;">
+                    <li>Aug 2026: Khang Nhat Hoang Vo, Tam Minh Chu, <u>Anh Trac Duc Dinh</u>, Thuyen Vinh Ha Bui, and Tho Quan. (2026). <em>Causal Episodic Memory for Feedback-Driven Agent Repair</em>. arXiv:2608.05906 [cs.CL]. <a href="https://arxiv.org/abs/2608.05906" target="_blank">https://arxiv.org/abs/2608.05906</a></li>
+                    <li>Jul 2026: <u>Anh Trac Duc Dinh</u> and Khang Nhat Hoang Vo. (2026). <em>The JEPA Paradox in Language: The Geometry of Linguistic Alternatives</em>. arXiv:2607.23531 [cs.CL]. <a href="https://arxiv.org/abs/2607.23531" target="_blank">https://arxiv.org/abs/2607.23531</a></li>
+                    <li>Jul 2026: <u>Anh Trac Duc Dinh</u>, Khang Nhat Hoang Vo, Vinh Cong Doan, Tai Tien Ta, and Khoa Duc Anh Lam. (2026). <em>Echoes Across Vietnam's Highlands, Delta, and Coast: A Multilingual Corpus for Cham, Khmer, and Tay-Nung</em>. arXiv:2607.08362 [cs.CL]. <a href="https://arxiv.org/abs/2607.08362" target="_blank">https://arxiv.org/abs/2607.08362</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+			</section>
+
+			</section>
+
+			<section class="colorlib-services" data-section="services">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Experience</span>
+
+										<h2 class="section-title">Research</h2>
+										<div class="exp-block">
+											<span class="exp-role">Research Assistant, URA Research Group</span>
+											<span class="exp-meta">Ho Chi Minh City University of Technology (HCMUT) &middot; 11/2025 &ndash; Present</span>
+											<p>Conducting research on Computational Linguistics and NLP with a focus on morphologically rich and low-resource languages, and investigating the application of Optimal Transport theory in deep learning pipelines for NLP.</p>
+										</div>
+										<div class="exp-block">
+											<span class="exp-role">Research Assistant, Center for AI Research (CAIR), VinUniversity, Hanoi</span>
+											<span class="exp-meta">Under the supervision of Prof. Quan Thanh Tho</span>
+											<p>Researching Large Language Models (LLMs) and Mixture-of-Experts (MoE) architectures, with a focus on developing methods for cross-lingual and multilingual transfer.</p>
+										</div>
+
+										<h2 class="section-title">Industry</h2>
+										<div class="exp-block">
+											<span class="exp-role">AI Intern — Data Science &amp; Artificial Intelligence Track</span>
+											<span class="exp-meta">Viettel Digital Talent Program, Viettel Group &middot; Apr 2026 &ndash; Aug 2026 &middot; Completed</span>
+											<p>6-month selective training and research internship program focusing on Data Science and Artificial Intelligence. Engaged in real-world R&amp;D projects at Viettel's specialized units under expert mentorship.</p>
+										</div>
+
+										<h2 class="section-title">Industry–Academia Collaboration &amp; Projects</h2>
+										<div class="exp-block">
+											<span class="exp-role">Teaching Assistant — Applying AI in Management &amp; Operations</span>
+											<span class="exp-meta">Vietcombank &ndash; Hung Vuong Branch, Ho Chi Minh City &middot; Aug 2025</span>
+											<p>Presented on utilizing Excel Copilot for employee management, salary calculation, and work hour tracking; delivered live use-case demonstrations to the branch staff and assisted in preparing content bridging academic research to industry applications.</p>
+										</div>
+										<div class="exp-block">
+											<span class="exp-role">AI Engineer — AI Agent Platform</span>
+											<span class="exp-meta">CT Group, Ho Chi Minh City &middot; Jun 2025</span>
+											<p>Built an Agent RAG system to retrieve FAQ data and company policies for employees; implemented the agent with search tools and RAG capabilities using the CrewAI framework.</p>
+										</div>
+										<div class="exp-block">
+											<span class="exp-role">Co-organizer &amp; Mentor, Team 07 — HCMUT CSE Summer School 2025</span>
+											<span class="exp-meta">Ho Chi Minh City University of Technology (HCMUT) &middot; Jul 2025</span>
+											<p>Guided high school students in developing VaxNova, an AI agent system that recommends vaccines and medicines based on patients' symptoms through conversational interaction; supported students in preparing English presentations and technical reports.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+			</section>
+
+			<section class="colorlib-services" data-section="awards">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Awards</span>
+
+										<h2 class="section-title">Research Scholarships</h2>
+										<ul class="plain-list">
+											<li>Odon Vallet Scholarship (September 2026)</li>
+										</ul>
+
+										<h2 class="section-title">Academic Honors</h2>
+										<div class="award-block">
+											<span class="award-title">Comprehensive Good Student Award</span>
+											<span class="award-meta">Faculty of Computer Science and Engineering, HCMUT &middot; June 2026</span>
+											<p>Recognized for comprehensive academic performance for the 2024–2025 academic year.</p>
+										</div>
+										<div class="award-block">
+											<span class="award-title">Outstanding Student, Faculty of Computer Science and Engineering</span>
+											<span class="award-meta">HCMUT Job Fair 2026 &middot; March 2026</span>
+											<p>Honored as an outstanding student of the faculty within the framework of HCMUT Job Fair 2026.</p>
+										</div>
+
+										<h2 class="section-title">Competitions</h2>
+										<div class="award-block">
+											<span class="award-title">First Prize — Vietnam Youth Start-up Challenge (VYSC) [National]</span>
+											<span class="award-meta">Ho Chi Minh City University of Technology (HCMUT) &ndash; VNU-HCM &middot; April 2026</span>
+											<p>Team SightSeeingGemma, awarded by the Rector of HCMUT for outstanding achievement in the national student start-up competition.</p>
+										</div>
+										<div class="award-block">
+											<span class="award-title">Third Prize — VLSP Competition [National]</span>
+											<span class="award-meta">Ho Chi Minh City University of Technology (HCMUT) &ndash; VNU-HCM &middot; April 2026</span>
+											<p>Team URAx_v1, recognized by the Rector of HCMUT for performance in the Vietnamese Language and Speech Processing competition.</p>
+										</div>
+										<div class="award-block">
+											<span class="award-title">Second Prize — SOICT 2025 International Competition [International]</span>
+											<span class="award-meta">The 14th International Symposium on Information and Communication Technology &middot; December 2025</span>
+											<p>Problem: Maximizing Benefit in Supplier-Consumer Transportation with Capacity Constraints.</p>
+										</div>
+										<div class="award-block">
+											<span class="award-title">Third Prize — VLSP 2025 Challenge on Vietnamese Legal Small Language Models [National]</span>
+											<span class="award-meta">The 11th International Workshop on Vietnamese Language and Speech Processing &middot; October 2025</span>
+											<p>Developed a small-sized language model (≤4B parameters) specialized for the Vietnamese legal domain, achieving high performance in legal question answering and consultation tasks.</p>
+										</div>
+										<div class="award-block">
+											<span class="award-title">Finalist — Bach Khoa Innovation Competition [Regional]</span>
+											<span class="award-meta">Ho Chi Minh City University of Technology (HCMUT) &ndash; VNU-HCM &middot; August 2025</span>
+											<p>Project: Enhancing Assistive AI for the Visually Impaired via Object Detection and Monocular Depth Estimation with Language-Based Scene Understanding.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+			</section>
+
+
+      
+			<section class="colorlib-services" data-section="blog">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Blog</span>
+										<div class="blog-grid">
+
+											<div class="blog-card">
+												<div class="blog-card-img">
+													<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+												</div>
+												<div class="blog-card-body">
+													<span class="blog-card-title">Placeholder Blog Post Title</span>
+													<p class="blog-card-desc">A short summary of this post goes here — swap in a real excerpt once it's published.</p>
+													<a class="blog-card-btn" href="blog/blog1.html">Read more &rarr;</a>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+			</section>
+
+
+
+
+
+
+			<section class="colorlib-services" data-section="contact">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+										<span class="heading-meta" style="font-size:18px;">Contact</span>
+										<ul class="plain-list" style="margin-top:15px;">
+											<li>Email: <a href="mailto:anh.dinhtracduc@hcmut.edu.vn">anh.dinhtracduc@hcmut.edu.vn</a></li>
+											<li>Phone: +84-862-970-249</li>
+											<li>Address: 268 Ly Thuong Kiet, Dien Hong Ward, Ho Chi Minh City</li>
+										</ul>
+
+										<h2 class="section-title">Other Links</h2>
+										<ul class="plain-list">
+											<li>LinkedIn: <a href="https://www.linkedin.com/in/dinh-trac-duc-anh/" target="_blank">https://www.linkedin.com/in/dinh-trac-duc-anh/</a></li>
+											<li>URA Homepage: <a href="https://ura.hcmut.edu.vn/people/anh.dinhtracduc" target="_blank">https://ura.hcmut.edu.vn/people/anh.dinhtracduc</a></li>
+											<li>Google Scholar: <a href="https://scholar.google.com/citations?user=zv0hHZAAAAAJ&amp;hl=vi&amp;oi=sra" target="_blank">https://scholar.google.com/citations?user=zv0hHZAAAAAJ</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+			</section>
+
+		</div><!-- end:colorlib-main -->
+	</div><!-- end:container-wrap -->
+	</div><!-- end:colorlib-page -->
+
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Counters -->
+	<script src="js/jquery.countTo.js"></script>
+
+
+	<!-- MAIN JS -->
+	<script src="js/main.js"></script>
+
+	<!-- Dark mode toggle -->
+	<script>
+	(function(){
+		var body = document.body;
+		var toggle = document.getElementById('theme-toggle');
+		var label = document.getElementById('theme-toggle-label');
+
+		function applyTheme(isDark){
+			body.classList.toggle('dark-mode', isDark);
+			if (toggle) toggle.checked = isDark;
+			if (label) label.textContent = isDark ? 'Dark mode' : 'Light mode';
+		}
+
+		var saved = localStorage.getItem('theme');
+		var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		applyTheme(saved ? saved === 'dark' : prefersDark);
+
+		if (toggle) {
+			toggle.addEventListener('change', function(){
+				var isDark = toggle.checked;
+				applyTheme(isDark);
+				localStorage.setItem('theme', isDark ? 'dark' : 'light');
+			});
+		}
+	})();
+	</script>
+
+	</body>
+</html>
