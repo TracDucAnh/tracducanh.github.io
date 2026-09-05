@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Where One Word Ends, Another Begins — Anh Trac Duc Dinh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A plain-language walkthrough of our ACL 2026 paper, HuTieuBERT — teaching Transformers to notice Vietnamese morpheme boundaries.">
+
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,700,700i" rel="stylesheet">
+
+	<link rel="shortcut icon" href="../favicon.ico">
+
+	<style>
+		:root{
+			--bg:#fdfdfb;
+			--bg-alt:#f4f5f8;
+			--text:#2b2b2b;
+			--text-soft:#6b6f76;
+			--text-faint:#9a9ea6;
+			--accent:#2c98f0;
+			--card:#ffffff;
+			--border:#e9e9e4;
+			--shadow:0 10px 30px rgba(20,20,25,0.08);
+		}
+		body.dark-mode{
+			--bg:#15171c;
+			--bg-alt:#1b1e24;
+			--text:#dcdfe4;
+			--text-soft:#9aa0aa;
+			--text-faint:#6f7580;
+			--accent:#5aaef8;
+			--card:#1b1e24;
+			--border:#2a2e37;
+			--shadow:0 10px 30px rgba(0,0,0,0.35);
+		}
+
+		*{box-sizing:border-box;}
+		html{scroll-behavior:smooth;}
+		body{
+			margin:0;
+			background:var(--bg);
+			color:var(--text);
+			font-family:"Playfair Display", Georgia, serif;
+			line-height:1.8;
+			-webkit-font-smoothing:antialiased;
+			transition:background .35s ease, color .35s ease;
+		}
+
+		/* ---------- Top bar ---------- */
+		.topbar{
+			position:sticky;
+			top:0;
+			z-index:20;
+			display:flex;
+			align-items:center;
+			justify-content:space-between;
+			padding:18px 6vw;
+			background:var(--bg);
+			border-bottom:1px solid var(--border);
+			transition:background .35s ease, border-color .35s ease;
+		}
+		.back-link{
+			font-size:15px;
+			color:var(--text-soft);
+			text-decoration:none;
+			letter-spacing:.2px;
+		}
+		.back-link:hover{color:var(--accent);}
+		.theme-toggle-wrap{display:flex;align-items:center;gap:10px;}
+		.theme-toggle-label{font-size:13px;color:var(--text-soft);}
+		.theme-switch{position:relative;display:inline-block;width:46px;height:24px;flex-shrink:0;}
+		.theme-switch input{opacity:0;width:0;height:0;}
+		.theme-switch .slider{
+			position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+			background-color:#ccc;transition:.3s;border-radius:26px;
+		}
+		body.dark-mode .theme-switch .slider{background-color:#3a3f4a;}
+		.theme-switch .slider:before{
+			position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;
+			background-color:#fff;transition:.3s;border-radius:50%;
+			box-shadow:0 1px 3px rgba(0,0,0,0.3);
+		}
+		.theme-switch input:checked + .slider{background-color:var(--accent);}
+		.theme-switch input:checked + .slider:before{transform:translateX(22px);}
+
+		/* ---------- Hero ---------- */
+		.hero{
+			max-width:min(860px, 92vw);
+			margin:0 auto;
+			padding:56px 6vw 10px;
+			text-align:center;
+		}
+		.hero-eyebrow{
+			font-style:italic;
+			color:var(--text-soft);
+			font-size:15px;
+			margin-bottom:10px;
+		}
+		.hero h1{
+			font-size:clamp(28px, 4.4vw, 42px);
+			line-height:1.25;
+			margin:0 0 18px;
+			font-weight:700;
+		}
+		.hero .subtitle{
+			font-size:18px;
+			font-style:italic;
+			color:var(--text-soft);
+			max-width:min(680px, 88vw);
+			margin:0 auto 26px;
+		}
+		.byline{
+			font-size:14px;
+			color:var(--text-faint);
+			margin-bottom:34px;
+		}
+		.byline b{color:var(--text-soft);font-weight:600;}
+		.hero-cover{
+			width:100%;
+			max-width:min(340px, 60vw);
+			margin:0 auto 8px;
+			border-radius:14px;
+			overflow:hidden;
+			box-shadow:var(--shadow);
+			background:var(--bg-alt);
+			padding:26px;
+		}
+		.hero-cover img{
+			width:100%;
+			display:block;
+		}
+
+		/* ---------- Article ---------- */
+		article{
+			max-width:min(760px, 90vw);
+			margin:0 auto;
+			padding:26px 6vw 20px;
+		}
+		article p{
+			font-size:18px;
+			margin:0 0 24px;
+			color:var(--text);
+		}
+		article p b, article p strong{color:var(--text);font-weight:700;}
+		article p i, article p em{color:var(--text-soft);}
+		.drop{
+			font-size:22px;
+		}
+
+		figure{
+			margin:36px 0 34px;
+		}
+		figure img{
+			width:100%;
+			border-radius:10px;
+			display:block;
+			box-shadow:var(--shadow);
+			border:1px solid var(--border);
+			background:var(--bg-alt);
+		}
+		figcaption{
+			font-size:13.5px;
+			font-style:italic;
+			color:var(--text-faint);
+			text-align:center;
+			margin-top:10px;
+		}
+
+		/* ---------- Scroll reveal ---------- */
+		.reveal{
+			opacity:0;
+			transform:translateY(16px);
+			transition:opacity .7s ease, transform .7s ease;
+		}
+		.reveal.is-visible{
+			opacity:1;
+			transform:translateY(0);
+		}
+		@media (prefers-reduced-motion: reduce){
+			.reveal{opacity:1;transform:none;transition:none;}
+		}
+
+		hr.sep{
+			border:none;
+			border-top:1px solid var(--border);
+			margin:44px 0;
+		}
+
+		/* ---------- Link buttons ---------- */
+		.link-row{
+			max-width:min(760px, 90vw);
+			margin:0 auto;
+			padding:6px 6vw 70px;
+			display:flex;
+			flex-wrap:wrap;
+			justify-content:center;
+			gap:14px;
+		}
+		.link-btn{
+			display:inline-flex;
+			align-items:center;
+			gap:8px;
+			padding:12px 22px;
+			font-family:"Playfair Display", Georgia, serif;
+			font-size:15px;
+			font-weight:700;
+			text-decoration:none;
+			border-radius:8px;
+			border:1.5px solid var(--accent);
+			color:var(--accent);
+			transition:.25s;
+		}
+		.link-btn:hover{background:var(--accent);color:#fff;}
+		.link-btn.solid{background:var(--accent);color:#fff;}
+		.link-btn.solid:hover{opacity:.85;background:var(--accent);color:#fff;}
+
+		.footer-note{
+			text-align:center;
+			font-size:14.5px;
+			color:var(--text-faint);
+			padding:0 6vw 70px;
+		}
+		.footer-note a{color:var(--accent);text-decoration:none;}
+		.footer-note a:hover{text-decoration:underline;}
+
+		@media (max-width:480px){
+			article p{font-size:16.5px;}
+			.hero h1{font-size:26px;}
+			.link-btn{width:100%;justify-content:center;}
+		}
+	</style>
+</head>
+<body>
+
+	<div class="topbar">
+		<a class="back-link" href="../index.html#blog">&larr; Back to home</a>
+		<div class="theme-toggle-wrap">
+			<span class="theme-toggle-label" id="theme-toggle-label">Light mode</span>
+			<label class="theme-switch">
+				<input type="checkbox" id="theme-toggle">
+				<span class="slider"></span>
+			</label>
+		</div>
+	</div>
+
+	<div class="hero">
+		<div class="hero-eyebrow">ACL 2026 &middot; Main Conference (Volume 1: Long Papers)</div>
+		<h1>Where One Word Ends, Another Begins</h1>
+		<p class="subtitle">Vietnamese doesn't do word endings — so how does a language model know where one idea stops and the next one starts? My ACL 2026 paper teaches it to notice.</p>
+		<div class="byline"><b>Anh Trac Duc Dinh</b> &middot; July 26, 2026</div>
+		<div class="hero-cover">
+			<img src="../images/ACL_2026/acl-logo.png" alt="ACL 2026 conference logo">
+		</div>
+	</div>
+
+	<article>
+
+		<p class="reveal drop">I'm just back from presenting my first paper as lead author at an A*-ranked venue — ACL 2026 — and I finally have a free afternoon to explain what it's actually about, since "morpheme-aware attention bias" doesn't exactly make for great small talk at the poster session.</p>
+
+		<p class="reveal">Here's the thing about Vietnamese: it doesn't really do word endings. No suffixes, no conjugations, no little grammatical stickers glued onto a word to tell you what it's doing. Meaning is built by lining up tiny, independent syllables — morphemes — one after another, the way you'd snap together Lego bricks. <i>học</i> (study) + <i>sinh</i> (person) = <i>học sinh</i> (student). Swap the order of the exact same two bricks and you get <i>sinh học</i> (biology) — a completely different word.</p>
+
+		<figure class="reveal">
+			<img src="../images/ACL_2026/2026.acl-long.472_page-0001.jpg" alt="First page of the paper, When Morphology Hides in Plain Sight">
+			<figcaption>The paper, fresh off the ACL press.</figcaption>
+		</figure>
+
+		<p class="reveal">The problem: a standard Transformer encoder — BERT, PhoBERT, take your pick — has no idea any of this is happening. It sees a row of tokens and lets attention wander freely across all of them, including, awkwardly, across boundaries it really should be respecting. When we probed this, Vietnamese attention kept leaking between one compound word and its neighbor, something English attention (which gets word boundaries handed to it for free, via spaces) mostly avoids.</p>
+
+		<p class="reveal">So we built <b>HuTieuBERT</b> — yes, named after <i>hủ tiếu</i>, the noodle soup, because a good bowl is a bunch of separate ingredients that only make sense together, in the right order, which is basically the entire thesis of this paper. It nudges a pretrained encoder in two small, well-behaved ways. First, we tag every syllable with where it sits inside its word — Begin, Middle, End, or Single, a scheme linguists call "BMES" — and quietly fuse that tag into the token's embedding through a learnable gate, so the model gets to decide how much to trust the hint. Second, we bake a lightweight "stay inside your own compound" preference directly into a couple of early attention layers: reward attention that stays within the same word, gently discourage it from wandering into the next one.</p>
+
+		<figure class="reveal">
+			<img src="../images/ACL_2026/ReDrawHuTieuBERT.png" alt="HuTieuBERT model architecture diagram">
+			<figcaption>The architecture — two small, well-behaved nudges bolted onto a standard Transformer encoder.</figcaption>
+		</figure>
+
+		<p class="reveal">The nice part is how conservative it all is. We deliberately keep the structural nudge small enough that it doesn't overwrite the model's pretrained instincts — more of a tap on the shoulder than a shove. And you can actually watch it working: on Vietnamese sentences, the biased attention heatmaps light up cleanly along morpheme boundaries instead of blurring across them, layer after layer.</p>
+
+		<figure class="reveal">
+			<img src="../images/ACL_2026/multi_layer_attention_1-2_all.png" alt="Vietnamese attention heatmap across layers 1-2">
+			<figcaption>Vietnamese attention, layers 1–2 — sharpening around word boundaries once the bias is switched on.</figcaption>
+		</figure>
+
+		<p class="reveal">Across Vietnamese POS tagging, NER, and sentence-level classification, HuTieuBERT beats PhoBERT, mBERT, and XLM-RoBERTa — with the biggest wins exactly where you'd expect: tasks that live or die by getting word boundaries right. And since Mandarin Chinese shares the same "isolating language" DNA — no inflection, monosyllabic morphemes, order doing most of the heavy lifting — we ported the same trick over as <b>MAChineseBERT</b>. Same story: sharper, more balanced predictions, this time on Chinese POS and NER.</p>
+
+		<figure class="reveal">
+			<img src="../images/ACL_2026/machinesebert_attention_1-2_all.png" alt="Chinese attention heatmap across layers 1-2">
+			<figcaption>The same trick, transplanted to Chinese — MAChineseBERT's attention, layers 1–2.</figcaption>
+		</figure>
+
+		<hr class="sep reveal">
+
+		<p class="reveal">None of this happens solo. Huge thanks to Prof. Tho Quan, Khang Hoang Nhat Vo, Tai Tien Ta, and Vinh Cong Doan for turning "morphemes are actually kind of cool" into a real paper, and to everyone at ACL who stopped by the poster to talk noodles and Transformers in the same sentence. Everything else — the paper, the talk recording, and the code — is linked below.</p>
+
+	</article>
+
+	<div class="link-row">
+		<a class="link-btn solid" href="https://aclanthology.org/2026.acl-long.472/" target="_blank" rel="noopener">Read the paper</a>
+		<a class="link-btn" href="https://underline.io/lecture/149228-when-morphology-hides-in-plain-sight-breaking-the-isolation-in-vietnamese-and-beyond" target="_blank" rel="noopener">Watch the talk</a>
+		<a class="link-btn" href="https://tracducanh.github.io/HuTieuBERT/" target="_blank" rel="noopener">Project page</a>
+	</div>
+
+	<div class="footer-note">
+		<a href="../index.html#publications">See the full publication list &rarr;</a>
+	</div>
+
+	<script>
+	(function(){
+		var body = document.body;
+		var toggle = document.getElementById('theme-toggle');
+		var label = document.getElementById('theme-toggle-label');
+
+		function applyTheme(isDark){
+			body.classList.toggle('dark-mode', isDark);
+			if (toggle) toggle.checked = isDark;
+			if (label) label.textContent = isDark ? 'Dark mode' : 'Light mode';
+		}
+
+		var saved = localStorage.getItem('theme');
+		var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		applyTheme(saved ? saved === 'dark' : prefersDark);
+
+		if (toggle) {
+			toggle.addEventListener('change', function(){
+				var isDark = toggle.checked;
+				applyTheme(isDark);
+				localStorage.setItem('theme', isDark ? 'dark' : 'light');
+			});
+		}
+
+		// Scroll reveal
+		var revealEls = document.querySelectorAll('.reveal');
+		if ('IntersectionObserver' in window) {
+			var io = new IntersectionObserver(function(entries){
+				entries.forEach(function(entry){
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						io.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+			revealEls.forEach(function(el){ io.observe(el); });
+		} else {
+			revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+		}
+	})();
+	</script>
+
+</body>
+</html>
