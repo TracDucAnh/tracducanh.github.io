@@ -5,20 +5,24 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Anh Trac Duc Dinh</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="" />
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
+	<meta name="description" content="Anh Trac Duc Dinh — Research Assistant at URA (HCMUT) and CAIR (VinUniversity), working on NLP and Representation Learning. Publications at ACL, AAAI, and more." />
+	<meta name="keywords" content="Anh Trac Duc Dinh, NLP, Natural Language Processing, Representation Learning, Machine Learning, HCMUT, VinUniversity, CAIR" />
+	<meta name="author" content="Anh Trac Duc Dinh" />
 
   <!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
+	<meta property="og:type" content="website"/>
+	<meta property="og:title" content="Anh Trac Duc Dinh"/>
+	<meta property="og:image" content="https://tracducanh.github.io/images/background_url.jpg"/>
+	<meta property="og:url" content="https://tracducanh.github.io/"/>
+	<meta property="og:site_name" content="Anh Trac Duc Dinh"/>
+	<meta property="og:description" content="Research Assistant at URA (HCMUT) and CAIR (VinUniversity), working on NLP and Representation Learning. Publications at ACL, AAAI, and more."/>
+	<meta name="twitter:title" content="Anh Trac Duc Dinh" />
+	<meta name="twitter:image" content="https://tracducanh.github.io/images/background_url.jpg" />
+	<meta name="twitter:url" content="https://tracducanh.github.io/" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:description" content="Research Assistant at URA (HCMUT) and CAIR (VinUniversity), working on NLP and Representation Learning. Publications at ACL, AAAI, and more." />
+
+	<link rel="canonical" href="https://tracducanh.github.io/">
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 	<link rel="shortcut icon" href="favicon.ico">
@@ -261,9 +265,9 @@
 		body.dark-mode .colorlib-footer,
 		body.dark-mode .colorlib-footer p,
 		body.dark-mode .colorlib-footer small{color:#8a8f99 !important;}
-		body.dark-mode #colorlib-main{background:#15171c !important;}
+		body.dark-mode #colorlib-main{background:transparent !important;}
 		body.dark-mode .colorlib-about,
-		body.dark-mode .colorlib-services{background:#15171c !important;}
+		body.dark-mode .colorlib-services{background:transparent !important;}
 		body.dark-mode .about-desc{color:#c7ccd4 !important;}
 		body.dark-mode .about-desc p,
 		body.dark-mode .about-desc li{color:#c7ccd4 !important;}
@@ -299,6 +303,57 @@
 		body.dark-mode #colorlib-aside .colorlib-footer ul li a:hover .footer-icon{color:#5aaef8;}
 		body.dark-mode #colorlib-aside .colorlib-footer ul li a{color:rgba(255,255,255,0.5) !important;}
 		body.dark-mode #colorlib-aside .colorlib-footer ul li a:hover{color:#5aaef8 !important;}
+
+		/* ---------- Sitewide background image + readability lining ---------- */
+		body::before{
+			content:"";
+			position:fixed;
+			inset:0;
+			z-index:-1;
+			background-image:
+				linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),
+				url('images/background_url.jpg');
+			background-size:cover;
+			background-position:center;
+			background-repeat:no-repeat;
+			background-attachment:fixed;
+			filter:blur(3px);
+			transform:scale(1.04); /* hides the blurred edges from view */
+			pointer-events:none;
+		}
+		body.dark-mode::before{
+			background-image:
+				linear-gradient(rgba(15,17,21,0.6), rgba(15,17,21,0.6)),
+				url('images/background_url.jpg');
+		}
+
+		/* Sidebar becomes a translucent "lining" panel instead of solid,
+		   so a hint of the backdrop still shows through it */
+		#colorlib-aside{
+			background:rgba(242,243,247,0.86) !important;
+			-webkit-backdrop-filter:blur(10px);
+			backdrop-filter:blur(10px);
+		}
+		body.dark-mode #colorlib-aside{
+			background:rgba(27,30,36,0.86) !important;
+			-webkit-backdrop-filter:blur(10px);
+			backdrop-filter:blur(10px);
+		}
+
+		/* Each content block sits on its own readable "card" over the backdrop */
+		.about-desc{
+			background:rgba(255,255,255,0.92);
+			border-radius:12px;
+			padding:30px 34px;
+			box-shadow:0 6px 24px rgba(20,20,25,0.06);
+		}
+		body.dark-mode .about-desc{
+			background:rgba(27,30,36,0.92);
+			box-shadow:0 6px 24px rgba(0,0,0,0.3);
+		}
+		@media screen and (max-width:768px){
+			.about-desc{padding:20px;}
+		}
 	</style>
 
 	</head>

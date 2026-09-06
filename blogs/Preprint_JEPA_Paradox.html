@@ -22,6 +22,8 @@
 			--card:#ffffff;
 			--border:#e9e9e4;
 			--shadow:0 10px 30px rgba(20,20,25,0.08);
+			--panel-bg:rgba(255,255,255,0.92);
+			--tint:rgba(255,255,255,0.5);
 		}
 		body.dark-mode{
 			--bg:#15171c;
@@ -33,6 +35,8 @@
 			--card:#1b1e24;
 			--border:#2a2e37;
 			--shadow:0 10px 30px rgba(0,0,0,0.35);
+			--panel-bg:rgba(27,30,36,0.92);
+			--tint:rgba(15,17,21,0.6);
 		}
 
 		*{box-sizing:border-box;}
@@ -46,6 +50,50 @@
 			-webkit-font-smoothing:antialiased;
 			transition:background .35s ease, color .35s ease;
 		}
+		body::before{
+			content:"";
+			position:fixed;
+			inset:0;
+			z-index:-1;
+			background-image:
+				linear-gradient(var(--tint), var(--tint)),
+				url('../images/background_url.jpg');
+			background-size:cover;
+			background-position:center;
+			background-repeat:no-repeat;
+			background-attachment:fixed;
+			filter:blur(3px);
+			transform:scale(1.04); /* hides the blurred edges from view */
+			pointer-events:none;
+		}
+
+		/* ---------- Link buttons ---------- */
+		.link-row{
+			max-width:min(760px, 90vw);
+			margin:0 auto;
+			padding:6px 6vw 70px;
+			display:flex;
+			flex-wrap:wrap;
+			justify-content:center;
+			gap:14px;
+		}
+		.link-btn{
+			display:inline-flex;
+			align-items:center;
+			gap:8px;
+			padding:12px 22px;
+			font-family:"Playfair Display", Georgia, serif;
+			font-size:15px;
+			font-weight:700;
+			text-decoration:none;
+			border-radius:8px;
+			border:1.5px solid var(--accent);
+			color:var(--accent);
+			transition:.25s;
+		}
+		.link-btn:hover{background:var(--accent);color:#fff;}
+		.link-btn.solid{background:var(--accent);color:#fff;}
+		.link-btn.solid:hover{opacity:.85;background:var(--accent);color:#fff;}
 
 		/* ---------- Top bar ---------- */
 		.topbar{
@@ -56,7 +104,9 @@
 			align-items:center;
 			justify-content:space-between;
 			padding:18px 6vw;
-			background:var(--bg);
+			background:var(--tint);
+			-webkit-backdrop-filter:blur(10px);
+			backdrop-filter:blur(10px);
 			border-bottom:1px solid var(--border);
 			transition:background .35s ease, border-color .35s ease;
 		}
@@ -87,9 +137,12 @@
 		/* ---------- Hero ---------- */
 		.hero{
 			max-width:min(860px, 92vw);
-			margin:0 auto;
+			margin:22px auto 0;
 			padding:56px 6vw 10px;
 			text-align:center;
+			background:var(--panel-bg);
+			border-radius:20px;
+			box-shadow:var(--shadow);
 		}
 		.hero-eyebrow{
 			font-style:italic;
@@ -133,8 +186,11 @@
 		/* ---------- Article ---------- */
 		article{
 			max-width:min(760px, 90vw);
-			margin:0 auto;
-			padding:26px 6vw 90px;
+			margin:24px auto 60px;
+			padding:26px 6vw 60px;
+			background:var(--panel-bg);
+			border-radius:20px;
+			box-shadow:var(--shadow);
 		}
 		article p{
 			font-size:18px;
@@ -242,7 +298,12 @@
 			text-align:center;
 			font-size:14.5px;
 			color:var(--text-faint);
-			padding:0 6vw 70px;
+			padding:14px 22px;
+			margin:0 auto 40px;
+			max-width:fit-content;
+			background:var(--panel-bg);
+			border-radius:999px;
+			box-shadow:var(--shadow);
 		}
 		.footer-note a{color:var(--accent);text-decoration:none;}
 		.footer-note a:hover{text-decoration:underline;}
@@ -251,34 +312,6 @@
 			article p{font-size:16.5px;}
 			.hero h1{font-size:26px;}
 		}
-
-		/* ---------- Link buttons ---------- */
-		.link-row{
-			max-width:min(760px, 90vw);
-			margin:0 auto;
-			padding:6px 6vw 70px;
-			display:flex;
-			flex-wrap:wrap;
-			justify-content:center;
-			gap:14px;
-		}
-		.link-btn{
-			display:inline-flex;
-			align-items:center;
-			gap:8px;
-			padding:12px 22px;
-			font-family:"Playfair Display", Georgia, serif;
-			font-size:15px;
-			font-weight:700;
-			text-decoration:none;
-			border-radius:8px;
-			border:1.5px solid var(--accent);
-			color:var(--accent);
-			transition:.25s;
-		}
-		.link-btn:hover{background:var(--accent);color:#fff;}
-		.link-btn.solid{background:var(--accent);color:#fff;}
-		.link-btn.solid:hover{opacity:.85;background:var(--accent);color:#fff;}
 	</style>
 </head>
 <body>
@@ -385,8 +418,8 @@
 
 	</article>
 
-    <div class="link-row">
-		<a class="link-btn solid" href="https://arxiv.org/abs/2607.23531" target="_blank" rel="noopener">Read the Preprint</a>
+	<div class="link-row">
+		<a class="link-btn solid" href="https://arxiv.org/abs/2607.23531" target="_blank" rel="noopener">Read the paper</a>
 	</div>
 
 	<div class="footer-note">
