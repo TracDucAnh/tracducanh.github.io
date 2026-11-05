@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Amateur photography by Anh Trac Duc Dinh — Budapest, Vienna, Ninh Bình and Singapore, shot on an old FUJIFILM X-A2." />
 	<meta name="author" content="Anh Trac Duc Dinh" />
+	<meta name="copyright" content="© Anh Trac Duc Dinh. All photographs on this page — all rights reserved." />
 	<meta name="theme-color" content="#0b0b0c">
 
 	<link rel="shortcut icon" href="favicon.ico">
@@ -114,12 +115,16 @@
 	<footer class="ph-footer">
 		<a href="https://www.instagram.com/dinh_trac_duc_anh/" target="_blank" rel="noopener">More on Instagram — @dinh_trac_duc_anh</a>
 		<a href="index.html">← Back to homepage</a>
+		<p class="ph-copyright">© <span id="ph-year">2026</span> Anh Trac Duc Dinh. All photographs on this page are my own work — all rights reserved. Please do not copy, download or reuse them without permission.</p>
 	</footer>
 
 	<!-- Picture viewer -->
 	<div class="ph-viewer" id="ph-viewer" role="dialog" aria-modal="true" aria-label="Picture viewer" hidden>
 		<div class="ph-viewer-stage" id="ph-viewer-stage">
-			<img class="ph-viewer-img" id="ph-viewer-img" alt="">
+			<div class="ph-viewer-frame">
+				<img class="ph-viewer-img" id="ph-viewer-img" alt="" draggable="false">
+				<span class="ph-viewer-mark" aria-hidden="true">© Anh Trac Duc Dinh</span>
+			</div>
 		</div>
 		<button class="ph-viewer-btn ph-viewer-close" id="ph-viewer-close" aria-label="Close">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -132,6 +137,9 @@
 		</button>
 		<div class="ph-viewer-caption" id="ph-viewer-caption"></div>
 	</div>
+
+	<!-- Shown when someone tries to save a photo -->
+	<div class="ph-toast" id="ph-toast" role="status" aria-live="polite">© Anh Trac Duc Dinh — all rights reserved</div>
 
 	<script src="js/photography.js"></script>
 	</body>

@@ -71,7 +71,7 @@ var ALBUMS = [
 		["[MARK_3]_0C2E98B7-E603-4728-94CD-072EDC8929D4-31611-00000420E86EAF17 3.JPG", 1240, 697, "#1E1E1D"],
 		["[MARK_4]_0F63566B-4E25-4064-8C42-0CAE39B99DA7-31611-00000420D5E718AC 3.JPG", 2048, 1152, "#47423E"],
 	]},
-	{folder: "Ninh_Binh", place: "Ninh Bình", country: "Việt Nam", coords: "20.2506° N · 105.9745° E", photos: [
+	{folder: "Ninh_Binh", place: "Ninh Bình", country: "Việt Nam", coords: "20.2506° N · 105.9745° E", camera: "Shot on NIKON D750", photos: [
 		["DSCF1728.JPG", 3456, 2304, "#3C3A35"],
 		["DSCF1737.JPG", 3456, 2304, "#343323"],
 		["DSC_1641.JPG", 5051, 3372, "#313B33"],
@@ -165,7 +165,7 @@ var ALBUMS = [
 		var rest = shuffle(photos.filter(function(p){ return p.mark === null; }));
 		return {
 			id: "album-" + a.folder.toLowerCase(),
-			place: a.place, country: a.country, coords: a.coords,
+			place: a.place, country: a.country, coords: a.coords, camera: a.camera || "",
 			photos: marked.concat(rest),
 			seed: Math.floor(Math.random() * 1e9),
 			grid: null, tiles: [], order: [], width: 0
@@ -261,7 +261,8 @@ var ALBUMS = [
 				'<div><span class="ph-album-no">' + pad(ai + 1) + '</span>' +
 				'<h2 class="ph-album-place">' + album.place + '</h2>' +
 				'<span class="ph-album-country">' + album.country + '</span></div>' +
-				'<div class="ph-album-meta">' + album.coords + '<br>' + album.photos.length + ' frames</div>' +
+				'<div class="ph-album-meta">' + album.coords + '<br>' + album.photos.length + ' frames' +
+					(album.camera ? '<br><span class="ph-album-camera">' + album.camera + '</span>' : '') + '</div>' +
 			'</div>' +
 			'<div class="ph-grid"></div>';
 		root.appendChild(sec);
@@ -277,7 +278,13 @@ var ALBUMS = [
 			var img = new Image();
 			img.alt = album.place + ", " + album.country;
 			img.decoding = "async";
+			img.draggable = false;
 			fig.appendChild(img);
+			var mark = document.createElement("span");
+			mark.className = "ph-tile-mark";
+			mark.setAttribute("aria-hidden", "true");
+			mark.textContent = "© Anh Trac Duc Dinh";
+			fig.appendChild(mark);
 			fig._job = {album: album, photo: photo, fig: fig, img: img};
 			loader.watch(fig);
 			fig.addEventListener("click", function(){ openViewer(album, photo); });
@@ -538,6 +545,29 @@ var ALBUMS = [
 		var size = fitSize(current.album.order[current.index]);
 		vImg.style.width = size.w + "px";
 		vImg.style.height = size.h + "px";
+	});
+
+	/* ---------- Copyright ----------
+	   Nothing shown in a browser can be fully protected, but casual saving
+	   (right-click, drag, long-press) is blocked with a gentle reminder. */
+	var year = document.getElementById("ph-year");
+	if (year) year.textContent = new Date().getFullYear();
+
+	var toast = document.getElementById("ph-toast");
+	var toastTimer;
+	function remind(){
+		toast.classList.add("is-shown");
+		clearTimeout(toastTimer);
+		toastTimer = setTimeout(function(){ toast.classList.remove("is-shown"); }, 2200);
+	}
+	function isPhoto(el){
+		return el && el.closest && el.closest(".ph-tile, .ph-viewer-frame");
+	}
+	document.addEventListener("contextmenu", function(e){
+		if (isPhoto(e.target)){ e.preventDefault(); remind(); }
+	});
+	document.addEventListener("dragstart", function(e){
+		if (isPhoto(e.target)) e.preventDefault();
 	});
 
 	/* ---------- Intro loader ----------
