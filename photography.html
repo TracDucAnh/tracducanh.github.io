@@ -12,8 +12,20 @@
 	<link rel="shortcut icon" href="favicon.ico">
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
 	<link rel="stylesheet" href="css/photography.css">
+	<!-- Skip the intro loader if it was already shown this session -->
+	<script>try{if(sessionStorage.getItem("ph-intro")==="1")document.documentElement.className+=" ph-no-intro";}catch(e){}</script>
 	</head>
-	<body>
+	<body class="is-intro">
+
+	<!-- Intro loader: an aperture opening, like a shutter about to fire -->
+	<div class="ph-intro-loader" id="ph-intro-loader" aria-hidden="true">
+		<svg class="ph-aperture" viewBox="-24 -24 48 48" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+			<circle r="20"/>
+			<path d="M8.50 0.00L-2.92 19.79M4.25 7.36L-18.60 7.36M-4.25 7.36L-15.67 -12.42M-8.50 0.00L2.92 -19.79M-4.25 -7.36L18.60 -7.36M4.25 -7.36L15.67 12.42"/>
+		</svg>
+		<span class="ph-intro-text">Developing</span>
+		<span class="ph-intro-bar"></span>
+	</div>
 
 	<!-- Top bar: back to homepage + Instagram -->
 	<header class="ph-topbar">
